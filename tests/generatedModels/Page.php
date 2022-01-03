@@ -11,5 +11,5 @@ class Page extends ParentModel
      *
      * @var string
      */
-    protected $table = 'custom_table_name_pages';
+    protected $table = 'pre_gen_custom_table_name_pages_suf_gen';
 }

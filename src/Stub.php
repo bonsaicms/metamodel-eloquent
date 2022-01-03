@@ -109,4 +109,9 @@ class Stub
     {
         return resource_path('stubs/metamodel-eloquent/'.$this->getStubFileName());
     }
+
+    public static function make(string $stubFileName, array $variables = [])
+    {
+        return (new static($stubFileName, $variables))->generate();
+    }
 }

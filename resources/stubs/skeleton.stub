@@ -7,4 +7,5 @@ use {{ parentModelLong }};
 class {{ className }} extends {{ parentModelShort }}
 {
 {{ properties }}
+{{ methods }}
 }

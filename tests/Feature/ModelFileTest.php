@@ -1,8 +1,8 @@
 <?php
 
 use BonsaiCms\Metamodel\Models\Entity;
-use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
+use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 
 it('creates a model file when a new entity is created', function () {
     $entity = Entity::factory()

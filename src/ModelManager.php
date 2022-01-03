@@ -6,14 +6,25 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use BonsaiCms\Metamodel\Models\Entity;
 use Illuminate\Support\Facades\Config;
+use BonsaiCms\Metamodel\Models\Attribute;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 
 class ModelManager implements ModelManagerContract
 {
+    const CAST_ATTRIBUTES = [
+        'boolean' => 'boolean',
+        'date' => 'date',
+        'time' => 'time',
+        'datetime' => 'datetime',
+        'json' => 'array',
+    ];
+
     public function deleteModel(Entity $entity): self
     {
-        File::delete($this->getModelFilePath($entity));
+        if ($this->modelExists($entity)) {
+            File::delete($this->getModelFilePath($entity));
+        }
 
         return $this;
     }
@@ -48,28 +59,6 @@ class ModelManager implements ModelManagerContract
         return File::exists($this->getModelFilePath($entity));
     }
 
-    public function getModelContents(Entity $entity): string
-    {
-        $stub = new Stub('skeleton');
-
-        // Skeleton
-        $stub->namespace = Config::get('bonsaicms-metamodel-eloquent.generate.namespace');
-        $stub->parentModelLong = Config::get('bonsaicms-metamodel-eloquent.generate.parentModel');
-        $stub->parentModelShort = class_basename($stub->parentModelLong);
-        $stub->className = $entity->name;
-
-        // Properties
-        $stub->properties = (new Stub('properties', [
-            'propertyTable' => ($entity->table === Str::snake(Str::pluralStudly(class_basename($entity->name))))
-                ? ''
-                : tap(new Stub('propertyTable', [
-                    'tableName' => $entity->table,
-                ]))->generate(),
-        ]))->generate();
-
-        return $this->postProcessModelContents($stub->generate());
-    }
-
     protected function postProcessModelContents(string $content): string
     {
         do {
@@ -81,6 +70,7 @@ class ModelManager implements ModelManagerContract
                 '{'.PHP_EOL.'}',
                 '{'.PHP_EOL.PHP_EOL.'}',
                 PHP_EOL.PHP_EOL.'}'.PHP_EOL,
+                PHP_EOL.'{'.PHP_EOL.PHP_EOL,
             ], [
                 //
                 '',
@@ -88,6 +78,7 @@ class ModelManager implements ModelManagerContract
                 '{'.PHP_EOL.'    //'.PHP_EOL.'}',
                 '{'.PHP_EOL.'    //'.PHP_EOL.'}',
                 PHP_EOL.'}'.PHP_EOL,
+                PHP_EOL.'{'.PHP_EOL,
             ], $content, $replaced);
         } while ($replaced > 0);
 
@@ -101,10 +92,81 @@ class ModelManager implements ModelManagerContract
             Config::get('bonsaicms-metamodel-eloquent.generate.modelFileSuffix');
     }
 
-    protected function resolveStubName(Entity $entity): string
+    public function getModelContents(Entity $entity): string
     {
-        return ($entity->table === Str::snake(Str::pluralStudly(class_basename($entity->name))))
-            ? 'modelBasic.stub'
-            : 'modelWithTableProperty.stub';
+        $stub = new Stub('skeleton');
+
+        // Skeleton
+        $stub->namespace = Config::get('bonsaicms-metamodel-eloquent.generate.namespace');
+        $stub->parentModelLong = Config::get('bonsaicms-metamodel-eloquent.generate.parentModel');
+        $stub->parentModelShort = class_basename($stub->parentModelLong);
+        $stub->className = $entity->name;
+
+        // Properties
+        $stub->properties = $this->resolveProperties($entity);
+
+        // Methods
+        $stub->methods = $this->resolveMethods($entity);
+
+        return $this->postProcessModelContents($stub->generate());
+    }
+
+    protected function resolveProperties(Entity $entity): string
+    {
+        return Stub::make('properties', [
+            'propertyTable' => $this->resolvePropertyTable($entity),
+            'propertyCasts' => $this->resolvePropertyCasts($entity),
+        ]);
+    }
+
+    protected function resolvePropertyTable(Entity $entity): string
+    {
+        return ($entity->realTableName === Str::snake(Str::pluralStudly(class_basename($entity->name))))
+            ? ''
+            : Stub::make('propertyTable', [
+                'tableName' => $entity->realTableName,
+            ]);
+    }
+
+    protected function resolvePropertyCasts(Entity $entity): string
+    {
+        $attributesToBeCasted = $entity
+            ->attributes
+            ->filter(fn ($attribute) => $this->shouldCastAttribute($attribute));
+
+        if ($attributesToBeCasted->isEmpty()) return '';
+
+        return Stub::make('propertyCasts', [
+            'casts' =>
+                PHP_EOL.
+                $attributesToBeCasted->reduce(fn ($carry, $attribute) => $carry.
+                    // TODO: z tohto spravit stub
+                    "        '{$attribute->column}' => '{$this->castAttributeTo($attribute)}',".PHP_EOL
+                    , '').
+                '    '
+        ]);
+    }
+
+    protected function shouldCastAttribute(Attribute $attribute): bool
+    {
+        return key_exists($attribute->type, static::CAST_ATTRIBUTES);
+    }
+
+    protected function castAttributeTo(Attribute $attribute): string
+    {
+        return static::CAST_ATTRIBUTES[$attribute->type];
+    }
+
+    protected function resolveMethods(Entity $entity): string
+    {
+        return Stub::make('methods', [
+            'methodsRelationships' => $this->resolveMethodsRelationships($entity),
+        ]);
+    }
+
+    protected function resolveMethodsRelationships(Entity $entity): string
+    {
+        // TODO
+        return '';
     }
 }
