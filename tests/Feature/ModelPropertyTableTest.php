@@ -2,7 +2,7 @@
 
 use BonsaiCms\Metamodel\Models\Entity;
 
-it('generates a pure model class when the table name reflects model name', function () {
+it('generates a model class', function () {
     Entity::factory()
         ->create([
             'name' => 'Article',
@@ -15,7 +15,7 @@ it('generates a pure model class when the table name reflects model name', funct
     );
 });
 
-it('generates a pure model class when the table name reflects model name with special plural', function () {
+it('generates a model class with a special plural table name', function () {
     Entity::factory()
         ->create([
             'name' => 'Person',
@@ -28,7 +28,7 @@ it('generates a pure model class when the table name reflects model name with sp
     );
 });
 
-it('generates a model class with custom table name', function () {
+it('generates a model class with a custom table name', function () {
     Entity::factory()
         ->create([
             'name' => 'Page',
