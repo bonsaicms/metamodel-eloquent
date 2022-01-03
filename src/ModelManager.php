@@ -129,11 +129,17 @@ class ModelManager implements ModelManagerContract
             if ($leftRelationship->type === 'oneToMany') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\HasMany');
             }
+            if ($leftRelationship->type === 'manyToMany') {
+                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
+            }
         }
 
         foreach ($entity->rightRelationships as $rightRelationship) {
             if (in_array($rightRelationship->type, ['oneToOne', 'oneToMany'])) {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsTo');
+            }
+            if ($rightRelationship->type === 'manyToMany') {
+                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
             }
         }
 
@@ -249,7 +255,15 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
-        // TODO: implement other relationship types
+        if ($relationship->type === 'manyToMany') {
+            $stub = Stub::make('relationshipBelongsToMany', [
+                'foreignEntity' => $relationship->rightEntity->name,
+                'method' => $relationship->left_relationship_name,
+                'pivotTable' => $relationship->realPivotTableName,
+                'foreignPivotKey' => $relationship->left_foreign_key,
+                'relatedPivotKey' => $relationship->right_foreign_key,
+            ]);
+        }
 
         return [
             'type' => 'left',
@@ -270,7 +284,15 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
-        // TODO: implement other relationship types
+        if ($relationship->type === 'manyToMany') {
+            $stub = Stub::make('relationshipBelongsToMany', [
+                'foreignEntity' => $relationship->leftEntity->name,
+                'method' => $relationship->right_relationship_name,
+                'pivotTable' => $relationship->realPivotTableName,
+                'foreignPivotKey' => $relationship->right_foreign_key,
+                'relatedPivotKey' => $relationship->left_foreign_key,
+            ]);
+        }
 
         return [
             'type' => 'right',

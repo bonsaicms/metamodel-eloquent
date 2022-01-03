@@ -1,0 +1,7 @@
+    /**
+     * Get the associated {{ foreignEntity }} models
+     */
+    public function {{ method }}(): BelongsToMany
+    {
+        return $this->belongsToMany({{ foreignEntity }}::class, '{{ pivotTable }}', '{{ foreignPivotKey }}', '{{ relatedPivotKey }}');
+    }
