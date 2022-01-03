@@ -12,6 +12,7 @@ use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 
 class ModelManager implements ModelManagerContract
 {
+    // TODO
     const CAST_ATTRIBUTES = [
         'boolean' => 'boolean',
         'date' => 'date',
@@ -94,9 +95,9 @@ class ModelManager implements ModelManagerContract
 
     public function getModelContents(Entity $entity): string
     {
-        $stub = new Stub('skeleton');
+        $stub = new Stub('model');
 
-        // Skeleton
+        // Global variables
         $stub->namespace = Config::get('bonsaicms-metamodel-eloquent.generate.namespace');
         $stub->parentModelLong = Config::get('bonsaicms-metamodel-eloquent.generate.parentModel');
         $stub->parentModelShort = class_basename($stub->parentModelLong);
@@ -140,7 +141,6 @@ class ModelManager implements ModelManagerContract
             'casts' =>
                 PHP_EOL.
                 $attributesToBeCasted->reduce(fn ($carry, $attribute) => $carry.
-                    // TODO: z tohto spravit stub
                     "        '{$attribute->column}' => '{$this->castAttributeTo($attribute)}',".PHP_EOL
                     , '').
                 '    '
