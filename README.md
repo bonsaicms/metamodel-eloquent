@@ -23,6 +23,36 @@ return [
 ];
 ```
 
+## Customizing Stubs
+
+You can publish stub files with:
+
+```bash
+php artisan vendor:publish --tag="bonsaicms-metamodel-eloquent-stubs"
+```
+
+Then, you can edit stub files in `resources/stubs/metamodel-eloquent/` folder.
+
+## Commands
+
+Generate missing models:
+
+```bash
+php artisan metamodel:generate-models
+```
+
+Regenerate all models:
+
+```bash
+php artisan metamodel:regenerate-models
+```
+
+Delete all generated models:
+
+```bash
+php artisan metamodel:delete-models
+```
+
 ## Testing
 
 ```bash
