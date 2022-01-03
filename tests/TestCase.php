@@ -53,7 +53,7 @@ class TestCase extends Orchestra
             ],
             'generate' => [
                 'folder' => app_path('Models'),
-                'modelFileSuffix' => '.php',
+                'modelFileSuffix' => '.generated.php',
                 'namespace' => 'TestApp\\Models',
                 'parentModel' => 'Laravel\\Eloquent',
             ],

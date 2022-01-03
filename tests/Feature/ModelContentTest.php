@@ -1,11 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use BonsaiCms\Metamodel\Models\Entity;
-use BonsaiCms\Metamodel\Models\Attribute;
-use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
-use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
-use Illuminate\Support\Facades\Config;
+
+beforeEach(function () {
+    $files = glob(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/*.generated.php');
+    foreach ($files as $file) {
+        if(is_file($file)) {
+            unlink($file);
+        }
+    }
+});
 
 it('generates a pure model class when the table name reflects model name', function () {
     Entity::factory()
@@ -16,7 +20,7 @@ it('generates a pure model class when the table name reflects model name', funct
 
     $this->assertFileEquals(
         expected: __DIR__.'/../generatedModels/Article.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.php'
+        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
     );
 });
 
@@ -29,7 +33,7 @@ it('generates a pure model class when the table name reflects model name with sp
 
     $this->assertFileEquals(
         expected: __DIR__.'/../generatedModels/Person.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Person.php'
+        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Person.generated.php'
     );
 });
 
@@ -42,6 +46,6 @@ it('generates a model class with custom table name', function () {
 
     $this->assertFileEquals(
         expected: __DIR__.'/../generatedModels/Page.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Page.php'
+        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Page.generated.php'
     );
 });
