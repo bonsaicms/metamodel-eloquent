@@ -2,9 +2,9 @@
 
 namespace {{ namespace }};
 
-use {{ parentModelLong }};
+{{ dependencies }}
 
-class {{ className }} extends {{ parentModelShort }}
+class {{ className }} extends {{ parentModel }}
 {
 {{ properties }}
 {{ methods }}

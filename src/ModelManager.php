@@ -3,10 +3,12 @@
 namespace BonsaiCms\MetamodelEloquent;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use BonsaiCms\Metamodel\Models\Entity;
 use Illuminate\Support\Facades\Config;
 use BonsaiCms\Metamodel\Models\Attribute;
+use BonsaiCms\Metamodel\Models\Relationship;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 
@@ -99,9 +101,11 @@ class ModelManager implements ModelManagerContract
 
         // Global variables
         $stub->namespace = Config::get('bonsaicms-metamodel-eloquent.generate.namespace');
-        $stub->parentModelLong = Config::get('bonsaicms-metamodel-eloquent.generate.parentModel');
-        $stub->parentModelShort = class_basename($stub->parentModelLong);
+        $stub->parentModel = class_basename(Config::get('bonsaicms-metamodel-eloquent.generate.parentModel'));
         $stub->className = $entity->name;
+
+        // Dependencies
+        $stub->dependencies = $this->resolveDependencies($entity);
 
         // Properties
         $stub->properties = $this->resolveProperties($entity);
@@ -110,6 +114,35 @@ class ModelManager implements ModelManagerContract
         $stub->methods = $this->resolveMethods($entity);
 
         return $this->postProcessModelContents($stub->generate());
+    }
+
+    protected function resolveDependencies(Entity $entity): string
+    {
+        $dependencies = new Collection;
+
+        $dependencies->push(Config::get('bonsaicms-metamodel-eloquent.generate.parentModel'));
+
+        foreach ($entity->leftRelationships as $leftRelationship) {
+            if ($leftRelationship->type === 'oneToOne') {
+                $dependencies->push('Illuminate\Database\Eloquent\Relations\HasOne');
+            }
+        }
+
+        foreach ($entity->rightRelationships as $rightRelationship) {
+            if ($rightRelationship->type === 'oneToOne') {
+                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsTo');
+            }
+        }
+
+        return $dependencies
+            ->unique()
+            ->reject(fn ($use) => Str::startsWith($use,
+                Config::get('bonsaicms-metamodel-eloquent.generate.namespace').'\\'
+            ))
+            ->sort()
+            ->sortBy(fn ($use) => strlen($use))
+            ->map(fn ($use) => "use $use;")
+            ->join(PHP_EOL);
     }
 
     protected function resolveProperties(Entity $entity): string
@@ -166,7 +199,72 @@ class ModelManager implements ModelManagerContract
 
     protected function resolveMethodsRelationships(Entity $entity): string
     {
-        // TODO
-        return '';
+        $resolvedRelationshipMethods = new Collection;
+
+        foreach ($entity->leftRelationships as $leftRelationship) {
+            $resolvedRelationshipMethods->push(
+                $this->resolveLeftRelationship($leftRelationship)
+            );
+        }
+
+        foreach ($entity->rightRelationships as $rightRelationship) {
+            $resolvedRelationshipMethods->push(
+                $this->resolveRightRelationship($rightRelationship)
+            );
+        }
+
+        return $this
+            ->sortResolvedRelationshipMethods($resolvedRelationshipMethods)
+            ->pluck('stub')
+            ->join(PHP_EOL);
+    }
+
+    protected function sortResolvedRelationshipMethods(Collection $methods): Collection
+    {
+        // TODO: implement some sort
+
+        return $methods;
+    }
+
+    protected function resolveLeftRelationship(Relationship $relationship): array
+    {
+        $stub = '';
+
+        if ($relationship->type === 'oneToOne') {
+            $stub = Stub::make('relationshipHasOne', [
+                'foreignEntity' => $relationship->rightEntity->name,
+                'method' => $relationship->left_relationship_name,
+                'foreignKey' => $relationship->right_foreign_key,
+            ]);
+        }
+
+        // TODO: implement other relationship types
+
+        return [
+            'type' => 'left',
+            'relationship' => $relationship,
+            'stub' => $stub,
+        ];
+    }
+
+    protected function resolveRightRelationship(Relationship $relationship): array
+    {
+        $stub = '';
+
+        if ($relationship->type === 'oneToOne') {
+            $stub = Stub::make('relationshipBelongsTo', [
+                'foreignEntity' => $relationship->leftEntity->name,
+                'method' => $relationship->right_relationship_name,
+                'foreignKey' => $relationship->right_foreign_key,
+            ]);
+        }
+
+        // TODO: implement other relationship types
+
+        return [
+            'type' => 'right',
+            'relationship' => $relationship,
+            'stub' => $stub,
+        ];
     }
 }
