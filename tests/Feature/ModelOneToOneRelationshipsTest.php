@@ -34,7 +34,6 @@ it('generates oneToOne relationship in the left entity', function () {
     );
 });
 
-
 it('generates oneToOne relationship in the right entity', function () {
     Relationship::factory()
         ->for($this->blueDog, 'leftEntity')

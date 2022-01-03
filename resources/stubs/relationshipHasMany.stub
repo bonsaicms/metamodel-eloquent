@@ -1,0 +1,7 @@
+    /**
+     * Get the associated {{ foreignEntity }} models
+     */
+    public function {{ method }}(): HasMany
+    {
+        return $this->hasMany({{ foreignEntity }}::class, '{{ foreignKey }}');
+    }

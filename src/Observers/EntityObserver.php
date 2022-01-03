@@ -43,15 +43,4 @@ class EntityObserver
     {
         $this->manager->regenerateModel($entity);
     }
-
-    /**
-     * Handle the Entity "forceDeleted" event.
-     *
-     * @param  \BonsaiCms\Metamodel\Models\Entity  $entity
-     * @return void
-     */
-//    public function forceDeleted(Entity $entity)
-//    {
-//        dd("forceDeleted");
-//    }
 }

@@ -43,15 +43,4 @@ class AttributeObserver
     {
         $this->manager->regenerateModel($attribute->entity);
     }
-
-    /**
-     * Handle the Attribute "forceDeleted" event.
-     *
-     * @param  \BonsaiCms\Metamodel\Models\Attribute  $attribute
-     * @return void
-     */
-//    public function forceDeleted(Attribute $attribute)
-//    {
-//        dd("forceDeleted");
-//    }
 }

@@ -126,10 +126,13 @@ class ModelManager implements ModelManagerContract
             if ($leftRelationship->type === 'oneToOne') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\HasOne');
             }
+            if ($leftRelationship->type === 'oneToMany') {
+                $dependencies->push('Illuminate\Database\Eloquent\Relations\HasMany');
+            }
         }
 
         foreach ($entity->rightRelationships as $rightRelationship) {
-            if ($rightRelationship->type === 'oneToOne') {
+            if (in_array($rightRelationship->type, ['oneToOne', 'oneToMany'])) {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsTo');
             }
         }
@@ -238,6 +241,14 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
+        if ($relationship->type === 'oneToMany') {
+            $stub = Stub::make('relationshipHasMany', [
+                'foreignEntity' => $relationship->rightEntity->name,
+                'method' => $relationship->left_relationship_name,
+                'foreignKey' => $relationship->right_foreign_key,
+            ]);
+        }
+
         // TODO: implement other relationship types
 
         return [
@@ -251,7 +262,7 @@ class ModelManager implements ModelManagerContract
     {
         $stub = '';
 
-        if ($relationship->type === 'oneToOne') {
+        if (in_array($relationship->type, ['oneToOne', 'oneToMany'])) {
             $stub = Stub::make('relationshipBelongsTo', [
                 'foreignEntity' => $relationship->leftEntity->name,
                 'method' => $relationship->right_relationship_name,

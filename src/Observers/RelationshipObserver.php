@@ -46,15 +46,4 @@ class RelationshipObserver
         $this->manager->regenerateModel($relationship->leftEntity);
         $this->manager->regenerateModel($relationship->rightEntity);
     }
-
-    /**
-     * Handle the Relationship "forceDeleted" event.
-     *
-     * @param  \BonsaiCms\Metamodel\Models\Relationship  $relationship
-     * @return void
-     */
-//    public function forceDeleted(Relationship $relationship)
-//    {
-//        dd("forceDeleted");
-//    }
 }
