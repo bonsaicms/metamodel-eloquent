@@ -50,15 +50,48 @@ class ModelManager implements ModelManagerContract
 
     public function getModelContents(Entity $entity): string
     {
-        $stub = new Stub($this->resolveStubName($entity));
+        $stub = new Stub('skeleton');
 
+        // Skeleton
         $stub->namespace = Config::get('bonsaicms-metamodel-eloquent.generate.namespace');
         $stub->parentModelLong = Config::get('bonsaicms-metamodel-eloquent.generate.parentModel');
         $stub->parentModelShort = class_basename($stub->parentModelLong);
         $stub->className = $entity->name;
-        $stub->tableName = $entity->table;
 
-        return $stub->generate();
+        // Properties
+        $stub->properties = (new Stub('properties', [
+            'propertyTable' => ($entity->table === Str::snake(Str::pluralStudly(class_basename($entity->name))))
+                ? ''
+                : tap(new Stub('propertyTable', [
+                    'tableName' => $entity->table,
+                ]))->generate(),
+        ]))->generate();
+
+        return $this->postProcessModelContents($stub->generate());
+    }
+
+    protected function postProcessModelContents(string $content): string
+    {
+        do {
+            $replaced = 0;
+            $content = str_replace([
+                //
+                '    '.PHP_EOL,
+                PHP_EOL.PHP_EOL.PHP_EOL,
+                '{'.PHP_EOL.'}',
+                '{'.PHP_EOL.PHP_EOL.'}',
+                PHP_EOL.PHP_EOL.'}'.PHP_EOL,
+            ], [
+                //
+                '',
+                PHP_EOL.PHP_EOL,
+                '{'.PHP_EOL.'    //'.PHP_EOL.'}',
+                '{'.PHP_EOL.'    //'.PHP_EOL.'}',
+                PHP_EOL.'}'.PHP_EOL,
+            ], $content, $replaced);
+        } while ($replaced > 0);
+
+        return $content;
     }
 
     public function getModelFilePath(Entity $entity): string

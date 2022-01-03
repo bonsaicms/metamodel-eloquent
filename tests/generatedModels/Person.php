@@ -2,9 +2,9 @@
 
 namespace TestApp\Models;
 
-use Laravel\Eloquent;
+use Some\Namespace\ParentModel;
 
-class Person extends Eloquent
+class Person extends ParentModel
 {
     //
 }

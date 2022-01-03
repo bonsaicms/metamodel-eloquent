@@ -12,7 +12,7 @@ it('creates a model file when a new entity is created', function () {
         ]);
 
     expect(app(ModelManagerContract::class)->modelExists($entity))->toBeTrue();
-    $this->assertFileExists(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.php');
+    $this->assertFileExists(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php');
 });
 
 it('deletes the model file when the entity is deleted', function () {
@@ -24,7 +24,7 @@ it('deletes the model file when the entity is deleted', function () {
         ->delete();
 
     expect(app(ModelManagerContract::class)->modelExists($entity))->toBeFalse();
-    $this->assertFileDoesNotExist(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.php');
+    $this->assertFileDoesNotExist(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php');
 });
 
 it('throws an exception when generating a model for entity which already exists', function () {

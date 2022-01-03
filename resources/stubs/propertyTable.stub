@@ -1,15 +1,6 @@
-<?php
-
-namespace {{ namespace }};
-
-use {{ parentModelLong }};
-
-class {{ className }} extends {{ parentModelShort }}
-{
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = '{{ tableName }}';
-}

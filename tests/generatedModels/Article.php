@@ -2,9 +2,9 @@
 
 namespace TestApp\Models;
 
-use Laravel\Eloquent;
+use Some\Namespace\ParentModel;
 
-class Article extends Eloquent
+class Article extends ParentModel
 {
     //
 }

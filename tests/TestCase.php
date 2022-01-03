@@ -52,11 +52,36 @@ class TestCase extends Orchestra
                 'relationship' => true,
             ],
             'generate' => [
-                'folder' => app_path('Models'),
+                'folder' => __DIR__.'/../vendor/orchestra/testbench-core/laravel/app/Models',
                 'modelFileSuffix' => '.generated.php',
                 'namespace' => 'TestApp\\Models',
-                'parentModel' => 'Laravel\\Eloquent',
+                'parentModel' => 'Some\\Namespace\\ParentModel',
             ],
         ]);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->deleteGeneratedFiles();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->deleteGeneratedFiles();
+    }
+
+    protected function deleteGeneratedFiles()
+    {
+        $files = glob(__DIR__.'/../vendor/orchestra/testbench-core/laravel/app/Models/*.generated.php');
+
+        foreach ($files as $file) {
+            if(is_file($file)) {
+                unlink($file);
+            }
+        }
     }
 }

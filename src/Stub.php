@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 
 class Stub
 {
+    const STUB_SUFFIX = '.stub';
     const STUB_FOLDER = __DIR__.'/../resources/stubs/';
 
     protected bool $stubContentLoaded = false;
@@ -18,7 +19,7 @@ class Stub
 
     public function getStubFileName(): string
     {
-        return $this->stubFileName;
+        return $this->stubFileName.static::STUB_SUFFIX;
     }
 
     public function getStubContent(): string
@@ -100,12 +101,12 @@ class Stub
         return File::get(
             File::exists($overriddenStubFilePath)
                 ? $overriddenStubFilePath
-                : static::STUB_FOLDER.$this->stubFileName
+                : static::STUB_FOLDER.$this->getStubFileName()
         );
     }
 
     private function resolveOverriddenStubFilePath(): string
     {
-        return resource_path('stubs/metamodel-eloquent/'.$this->stubFileName);
+        return resource_path('stubs/metamodel-eloquent/'.$this->getStubFileName());
     }
 }

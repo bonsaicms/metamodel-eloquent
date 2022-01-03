@@ -2,9 +2,9 @@
 
 namespace TestApp\Models;
 
-use Laravel\Eloquent;
+use Some\Namespace\ParentModel;
 
-class Page extends Eloquent
+class Page extends ParentModel
 {
     /**
      * The table associated with the model.

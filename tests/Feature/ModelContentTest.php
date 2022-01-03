@@ -2,15 +2,6 @@
 
 use BonsaiCms\Metamodel\Models\Entity;
 
-beforeEach(function () {
-    $files = glob(__DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/*.generated.php');
-    foreach ($files as $file) {
-        if(is_file($file)) {
-            unlink($file);
-        }
-    }
-});
-
 it('generates a pure model class when the table name reflects model name', function () {
     Entity::factory()
         ->create([
