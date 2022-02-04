@@ -175,7 +175,8 @@ class ModelManager implements ModelManagerContract
     {
         $attributesToBeCasted = $entity
             ->attributes
-            ->filter(fn ($attribute) => $this->shouldCastAttribute($attribute));
+            ->filter(fn ($attribute) => $this->shouldCastAttribute($attribute))
+            ->sort();
 
         if ($attributesToBeCasted->isEmpty()) return '';
 
