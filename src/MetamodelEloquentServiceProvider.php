@@ -24,10 +24,13 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Merge config
         $this->mergeConfigFrom(
-            __DIR__.'/../config/bonsaicms-metamodel-eloquent.php', 'bonsaicms-metamodel-eloquent'
+            __DIR__.'/../config/bonsaicms-metamodel-eloquent.php',
+            'bonsaicms-metamodel-eloquent'
         );
 
+        // Bind implementation
         if (Config::get('bonsaicms-metamodel-eloquent.bind.modelManager')) {
             $this->app->singleton(ModelManagerContract::class, ModelManager::class);
         }
@@ -40,6 +43,7 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Register commands
         if ($this->app->runningInConsole()) {
             $this->commands([
                 DeleteModels::class,
@@ -48,14 +52,17 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
             ]);
         }
 
+        // Publish config
         $this->publishes([
             __DIR__.'/../config/bonsaicms-metamodel-eloquent.php' => $this->app->configPath('bonsaicms-metamodel-eloquent.php'),
         ], 'bonsaicms-metamodel-eloquent-config');
 
+        // Publish stubs
         $this->publishes([
             __DIR__.'/../resources/stubs/' => $this->app->resourcePath('stubs/metamodel-eloquent/'),
         ], 'bonsaicms-metamodel-eloquent-stubs');
 
+        // Observe models
         if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity')) {
             Entity::observe(EntityObserver::class);
         }

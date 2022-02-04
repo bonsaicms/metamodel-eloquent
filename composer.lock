@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "253a389d5229ec33bb5ae592a9a4ecb3",
+    "content-hash": "e5611c6906a9356a32ca829cfadd332b",
     "packages": [
         {
             "name": "bonsaicms/metamodel",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../metamodel",
-                "reference": "b793033e52434fba20ebafd268e0ca6d97d189f6"
+                "reference": "df9e3ca2e2576578a6824c9658b62c65c715df92"
             },
             "require": {
                 "laravel/framework": "^8.0",
@@ -41,6 +41,38 @@
                 "bonsaicms",
                 "laravel",
                 "metamodel"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "bonsaicms/support",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../support",
+                "reference": "4c812843130ed085041f88d579a95917037dd3e6"
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BonsaiCms\\Support\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Bonsai CMS Support Package",
+            "homepage": "https://github.com/bonsaicms/support",
+            "keywords": [
+                "bonsaicms",
+                "bonsaicms-support",
+                "laravel"
             ],
             "transport-options": {
                 "relative": true
@@ -8397,7 +8429,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "bonsaicms/metamodel": 20
+        "bonsaicms/metamodel": 20,
+        "bonsaicms/support": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
