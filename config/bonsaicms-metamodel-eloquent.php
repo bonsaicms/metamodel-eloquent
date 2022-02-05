@@ -27,9 +27,9 @@ return [
 //        ],
     ],
     'generate' => [
-        'folder' => app_path('Models'),
+        'folder' => app_path('Models/Generated'),
         'modelFileSuffix' => '.php',
-        'namespace' => app()->getNamespace().'Models',
-        'parentModel' => Illuminate\Database\Eloquent\Model::class,
+        'namespace' => app()->getNamespace().'Models\\Generated',
+        'parentModel' => App\Models\Generated\GeneratedModel::class,
     ],
 ];
