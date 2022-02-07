@@ -192,12 +192,12 @@ class ModelManager implements ModelManagerContract
 
     protected function shouldCastAttribute(Attribute $attribute): bool
     {
-        return key_exists($attribute->type, static::CAST_ATTRIBUTES);
+        return key_exists($attribute->data_type, static::CAST_ATTRIBUTES);
     }
 
     protected function castAttributeTo(Attribute $attribute): string
     {
-        return static::CAST_ATTRIBUTES[$attribute->type];
+        return static::CAST_ATTRIBUTES[$attribute->data_type];
     }
 
     protected function resolveMethods(Entity $entity): string

@@ -14,7 +14,7 @@ it('should not cast string attributes', function () {
         ->for($entity)
         ->create([
             'column' => 'some_string_attribute',
-            'type' => 'string',
+            'data_type' => 'string',
         ]);
 
     $this->assertFileEquals(
@@ -34,7 +34,7 @@ it('should cast boolean attribute', function () {
         ->for($entity)
         ->create([
             'column' => 'some_boolean_attribute',
-            'type' => 'boolean',
+            'data_type' => 'boolean',
         ]);
 
     $this->assertFileEquals(
@@ -54,7 +54,7 @@ it('should cast date attribute', function () {
         ->for($entity)
         ->create([
             'column' => 'some_date_attribute',
-            'type' => 'date',
+            'data_type' => 'date',
         ]);
 
     $this->assertFileEquals(
@@ -74,7 +74,7 @@ it('should cast json attribute', function () {
         ->for($entity)
         ->create([
             'column' => 'some_json_attribute',
-            'type' => 'json',
+            'data_type' => 'json',
         ]);
 
     $this->assertFileEquals(
@@ -94,35 +94,35 @@ it('should cast attributes', function () {
         ->for($entity)
         ->create([
             'column' => 'some_boolean_attribute',
-            'type' => 'boolean',
+            'data_type' => 'boolean',
         ]);
 
     Attribute::factory()
         ->for($entity)
         ->create([
             'column' => 'some_date_attribute',
-            'type' => 'date',
+            'data_type' => 'date',
         ]);
 
     Attribute::factory()
         ->for($entity)
         ->create([
             'column' => 'some_time_attribute',
-            'type' => 'time',
+            'data_type' => 'time',
         ]);
 
     Attribute::factory()
         ->for($entity)
         ->create([
             'column' => 'some_datetime_attribute',
-            'type' => 'datetime',
+            'data_type' => 'datetime',
         ]);
 
     Attribute::factory()
         ->for($entity)
         ->create([
             'column' => 'some_json_attribute',
-            'type' => 'json',
+            'data_type' => 'json',
         ]);
 
     $this->assertFileEquals(
