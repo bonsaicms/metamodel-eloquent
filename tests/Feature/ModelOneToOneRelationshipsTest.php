@@ -22,7 +22,7 @@ it('generates oneToOne relationship in the left entity', function () {
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'type' => 'oneToOne',
+            'cardinality' => 'oneToOne',
             'right_foreign_key' => 'blue_dog_id',
             'left_relationship_name' => 'redCat',
             'right_relationship_name' => 'blueDog',
@@ -39,7 +39,7 @@ it('generates oneToOne relationship in the right entity', function () {
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'type' => 'oneToOne',
+            'cardinality' => 'oneToOne',
             'right_foreign_key' => 'blue_dog_id',
             'left_relationship_name' => 'redCat',
             'right_relationship_name' => 'blueDog',

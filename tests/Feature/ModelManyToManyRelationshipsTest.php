@@ -22,7 +22,7 @@ it('generates manyToMany relationship in the left entity', function () {
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'type' => 'manyToMany',
+            'cardinality' => 'manyToMany',
             'pivot_table' => 'blue_dog_red_cat_pivot_table',
             'left_foreign_key' => 'blue_dog_id',
             'right_foreign_key' => 'red_cat_id',
@@ -41,7 +41,7 @@ it('generates manyToMany relationship in the right entity', function () {
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'type' => 'manyToMany',
+            'cardinality' => 'manyToMany',
             'pivot_table' => 'blue_dog_red_cat_pivot_table',
             'left_foreign_key' => 'blue_dog_id',
             'right_foreign_key' => 'red_cat_id',

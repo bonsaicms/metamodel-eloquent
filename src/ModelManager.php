@@ -123,22 +123,22 @@ class ModelManager implements ModelManagerContract
         $dependencies->push(Config::get('bonsaicms-metamodel-eloquent.generate.parentModel'));
 
         foreach ($entity->leftRelationships as $leftRelationship) {
-            if ($leftRelationship->type === 'oneToOne') {
+            if ($leftRelationship->cardinality === 'oneToOne') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\HasOne');
             }
-            if ($leftRelationship->type === 'oneToMany') {
+            if ($leftRelationship->cardinality === 'oneToMany') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\HasMany');
             }
-            if ($leftRelationship->type === 'manyToMany') {
+            if ($leftRelationship->cardinality === 'manyToMany') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
             }
         }
 
         foreach ($entity->rightRelationships as $rightRelationship) {
-            if (in_array($rightRelationship->type, ['oneToOne', 'oneToMany'])) {
+            if (in_array($rightRelationship->cardinality, ['oneToOne', 'oneToMany'])) {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsTo');
             }
-            if ($rightRelationship->type === 'manyToMany') {
+            if ($rightRelationship->cardinality === 'manyToMany') {
                 $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
             }
         }
@@ -240,7 +240,7 @@ class ModelManager implements ModelManagerContract
     {
         $stub = '';
 
-        if ($relationship->type === 'oneToOne') {
+        if ($relationship->cardinality === 'oneToOne') {
             $stub = Stub::make('relationshipHasOne', [
                 'foreignEntity' => $relationship->rightEntity->name,
                 'method' => $relationship->left_relationship_name,
@@ -248,7 +248,7 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
-        if ($relationship->type === 'oneToMany') {
+        if ($relationship->cardinality === 'oneToMany') {
             $stub = Stub::make('relationshipHasMany', [
                 'foreignEntity' => $relationship->rightEntity->name,
                 'method' => $relationship->left_relationship_name,
@@ -256,7 +256,7 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
-        if ($relationship->type === 'manyToMany') {
+        if ($relationship->cardinality === 'manyToMany') {
             $stub = Stub::make('relationshipBelongsToMany', [
                 'foreignEntity' => $relationship->rightEntity->name,
                 'method' => $relationship->left_relationship_name,
@@ -267,7 +267,7 @@ class ModelManager implements ModelManagerContract
         }
 
         return [
-            'type' => 'left',
+            'direction' => 'left',
             'relationship' => $relationship,
             'stub' => $stub,
         ];
@@ -277,7 +277,7 @@ class ModelManager implements ModelManagerContract
     {
         $stub = '';
 
-        if (in_array($relationship->type, ['oneToOne', 'oneToMany'])) {
+        if (in_array($relationship->cardinality, ['oneToOne', 'oneToMany'])) {
             $stub = Stub::make('relationshipBelongsTo', [
                 'foreignEntity' => $relationship->leftEntity->name,
                 'method' => $relationship->right_relationship_name,
@@ -285,7 +285,7 @@ class ModelManager implements ModelManagerContract
             ]);
         }
 
-        if ($relationship->type === 'manyToMany') {
+        if ($relationship->cardinality === 'manyToMany') {
             $stub = Stub::make('relationshipBelongsToMany', [
                 'foreignEntity' => $relationship->leftEntity->name,
                 'method' => $relationship->right_relationship_name,
@@ -296,7 +296,7 @@ class ModelManager implements ModelManagerContract
         }
 
         return [
-            'type' => 'right',
+            'direction' => 'right',
             'relationship' => $relationship,
             'stub' => $stub,
         ];
