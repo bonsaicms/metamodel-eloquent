@@ -59,7 +59,7 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
 
         // Publish stubs
         $this->publishes([
-            __DIR__.'/../resources/stubs/' => $this->app->resourcePath('stubs/metamodel-eloquent/'),
+            __DIR__.'/../resources/stubs/' => $this->app->resourcePath('stubs/bonsaicms/metamodel-eloquent/'),
         ], 'bonsaicms-metamodel-eloquent-stubs');
 
         // Observe models

@@ -13,6 +13,6 @@ class Stub extends AbstractStub
 
     protected function resolveOverriddenStubFilePath(string $stubFileName): string|null
     {
-        return resource_path('stubs/metamodel-eloquent/' . $stubFileName);
+        return resource_path('stubs/bonsaicms/metamodel-eloquent/' . $stubFileName);
     }
 }
