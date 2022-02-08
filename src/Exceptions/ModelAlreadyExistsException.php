@@ -7,7 +7,7 @@ use BonsaiCms\Metamodel\Models\Entity;
 
 class ModelAlreadyExistsException extends AbstractException
 {
-    public function __construct(public Entity $entity, $message = "", $code = 0, Throwable $previous = null)
+    public function __construct(public Entity $entity, $message = '', $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
