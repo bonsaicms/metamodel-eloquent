@@ -49,6 +49,10 @@ class ModelManager implements ModelManagerContract
             throw new ModelAlreadyExistsException($entity);
         }
 
+        File::ensureDirectoryExists(
+            $this->getModelDirectoryPath($entity)
+        );
+
         File::put(
             path: $this->getModelFilePath($entity),
             contents: $this->getModelContents($entity)
@@ -88,10 +92,15 @@ class ModelManager implements ModelManagerContract
         return $content;
     }
 
+    public function getModelDirectoryPath(Entity $entity): string
+    {
+        return Config::get('bonsaicms-metamodel-eloquent.generate.folder').'/';
+    }
+
     public function getModelFilePath(Entity $entity): string
     {
-        return Config::get('bonsaicms-metamodel-eloquent.generate.folder').
-            '/'.$entity->name.
+        return $this->getModelDirectoryPath($entity)
+            .$entity->name.
             Config::get('bonsaicms-metamodel-eloquent.generate.modelFileSuffix');
     }
 

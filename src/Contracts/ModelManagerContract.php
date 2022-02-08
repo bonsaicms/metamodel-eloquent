@@ -14,6 +14,8 @@ interface ModelManagerContract
 
     function modelExists(Entity $entity): bool;
 
+    function getModelDirectoryPath(Entity $entity): string;
+
     function getModelFilePath(Entity $entity): string;
 
     function getModelContents(Entity $entity): string;
