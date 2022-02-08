@@ -60,6 +60,9 @@ class TestCase extends Orchestra
         ]);
     }
 
+    /**
+     * This method is called before each test.
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -67,6 +70,9 @@ class TestCase extends Orchestra
         $this->deleteGeneratedFiles();
     }
 
+    /**
+     * This method is called after each test.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();
