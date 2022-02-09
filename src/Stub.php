@@ -2,9 +2,9 @@
 
 namespace BonsaiCms\MetamodelEloquent;
 
-use BonsaiCms\Support\AbstractStub;
+use BonsaiCms\Support\Stubs\AbstractPhpClassStub;
 
-class Stub extends AbstractStub
+class Stub extends AbstractPhpClassStub
 {
     protected function resolveDefaultStubFilePath(string $stubFileName): string
     {

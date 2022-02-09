@@ -66,32 +66,6 @@ class ModelManager implements ModelManagerContract
         return File::exists($this->getModelFilePath($entity));
     }
 
-    protected function postProcessModelContents(string $content): string
-    {
-        do {
-            $replaced = 0;
-            $content = str_replace([
-                //
-                '    '.PHP_EOL,
-                PHP_EOL.PHP_EOL.PHP_EOL,
-                '{'.PHP_EOL.'}',
-                '{'.PHP_EOL.PHP_EOL.'}',
-                PHP_EOL.PHP_EOL.'}'.PHP_EOL,
-                PHP_EOL.'{'.PHP_EOL.PHP_EOL,
-            ], [
-                //
-                '',
-                PHP_EOL.PHP_EOL,
-                '{'.PHP_EOL.'    //'.PHP_EOL.'}',
-                '{'.PHP_EOL.'    //'.PHP_EOL.'}',
-                PHP_EOL.'}'.PHP_EOL,
-                PHP_EOL.'{'.PHP_EOL,
-            ], $content, $replaced);
-        } while ($replaced > 0);
-
-        return $content;
-    }
-
     public function getModelDirectoryPath(Entity $entity): string
     {
         return Config::get('bonsaicms-metamodel-eloquent.generate.folder').'/';
@@ -122,7 +96,7 @@ class ModelManager implements ModelManagerContract
         // Methods
         $stub->methods = $this->resolveMethods($entity);
 
-        return $this->postProcessModelContents($stub->generate());
+        return $stub->generate();
     }
 
     protected function resolveDependencies(Entity $entity): string
