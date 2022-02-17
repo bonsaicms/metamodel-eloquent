@@ -3,6 +3,8 @@
 namespace TestApp\Models;
 
 use Some\Namespace\ParentModel;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class Article extends ParentModel
 {
@@ -19,6 +21,7 @@ class Article extends ParentModel
      * @var array
      */
     protected $casts = [
-        'some_json_attribute' => 'array',
+        'some_arraylist_attribute' => AsCollection::class,
+        'some_arrayhash_attribute' => AsArrayObject::class,
     ];
 }

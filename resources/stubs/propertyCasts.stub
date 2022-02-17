@@ -1,6 +1,8 @@
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [{{ casts }}];
+/**
+ * The attributes that should be cast.
+ *
+ * @var array
+ */
+protected $casts = [
+    {{ casts|indentTabs(1) }}
+];

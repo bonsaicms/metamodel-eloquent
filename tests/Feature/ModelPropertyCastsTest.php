@@ -63,7 +63,7 @@ it('should cast date attribute', function () {
     );
 });
 
-it('should cast json attribute', function () {
+it('should cast json attributes', function () {
     $entity = Entity::factory()
         ->create([
             'name' => 'Article',
@@ -73,12 +73,19 @@ it('should cast json attribute', function () {
     Attribute::factory()
         ->for($entity)
         ->create([
-            'column' => 'some_json_attribute',
-            'data_type' => 'json',
+            'column' => 'some_arraylist_attribute',
+            'data_type' => 'arraylist',
+        ]);
+
+    Attribute::factory()
+        ->for($entity)
+        ->create([
+            'column' => 'some_arrayhash_attribute',
+            'data_type' => 'arrayhash',
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/ArticleWithJsonAttribute.php',
+        expected: __DIR__.'/../generatedModels/ArticleWithJsonAttributes.php',
         actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
     );
 });
@@ -116,13 +123,6 @@ it('should cast attributes', function () {
         ->create([
             'column' => 'some_datetime_attribute',
             'data_type' => 'datetime',
-        ]);
-
-    Attribute::factory()
-        ->for($entity)
-        ->create([
-            'column' => 'some_json_attribute',
-            'data_type' => 'json',
         ]);
 
     $this->assertFileEquals(

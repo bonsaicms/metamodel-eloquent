@@ -23,6 +23,5 @@ class Article extends ParentModel
         'some_date_attribute' => 'date',
         'some_time_attribute' => 'time',
         'some_datetime_attribute' => 'datetime',
-        'some_json_attribute' => 'array',
     ];
 }

@@ -9,18 +9,19 @@ use BonsaiCms\Metamodel\Models\Entity;
 use Illuminate\Support\Facades\Config;
 use BonsaiCms\Metamodel\Models\Attribute;
 use BonsaiCms\Metamodel\Models\Relationship;
+use BonsaiCms\Support\PhpDependenciesCollection;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 use BonsaiCms\MetamodelEloquent\Exceptions\ModelAlreadyExistsException;
 
 class ModelManager implements ModelManagerContract
 {
-    // TODO
     const CAST_ATTRIBUTES = [
-        'boolean' => 'boolean',
-        'date' => 'date',
-        'time' => 'time',
-        'datetime' => 'datetime',
-        'json' => 'array',
+        'boolean' => "'boolean'",
+        'date' => "'date'",
+        'time' => "'time'",
+        'datetime' => "'datetime'",
+        'arraylist' => 'AsCollection::class',
+        'arrayhash' => 'AsArrayObject::class',
     ];
 
     public function deleteModel(Entity $entity): self
@@ -101,40 +102,42 @@ class ModelManager implements ModelManagerContract
 
     protected function resolveDependencies(Entity $entity): string
     {
-        $dependencies = new Collection;
+        $dependencies = new PhpDependenciesCollection;
 
         $dependencies->push(Config::get('bonsaicms-metamodel-eloquent.generate.parentModel'));
 
         foreach ($entity->leftRelationships as $leftRelationship) {
             if ($leftRelationship->cardinality === 'oneToOne') {
-                $dependencies->push('Illuminate\Database\Eloquent\Relations\HasOne');
+                $dependencies->push(\Illuminate\Database\Eloquent\Relations\HasOne::class);
             }
             if ($leftRelationship->cardinality === 'oneToMany') {
-                $dependencies->push('Illuminate\Database\Eloquent\Relations\HasMany');
+                $dependencies->push(\Illuminate\Database\Eloquent\Relations\HasMany::class);
             }
             if ($leftRelationship->cardinality === 'manyToMany') {
-                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
+                $dependencies->push(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
             }
         }
 
         foreach ($entity->rightRelationships as $rightRelationship) {
             if (in_array($rightRelationship->cardinality, ['oneToOne', 'oneToMany'])) {
-                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsTo');
+                $dependencies->push(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
             }
             if ($rightRelationship->cardinality === 'manyToMany') {
-                $dependencies->push('Illuminate\Database\Eloquent\Relations\BelongsToMany');
+                $dependencies->push(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
             }
         }
 
-        return $dependencies
-            ->unique()
-            ->reject(fn ($use) => Str::startsWith($use,
-                Config::get('bonsaicms-metamodel-eloquent.generate.namespace').'\\'
-            ))
-            ->sort()
-            ->sortBy(fn ($use) => strlen($use))
-            ->map(fn ($use) => "use $use;")
-            ->join(PHP_EOL);
+        if ($entity->attributes->some(static fn (Attribute $attribute) => ($attribute->data_type === 'arraylist'))) {
+            $dependencies->push(\Illuminate\Database\Eloquent\Casts\AsCollection::class);
+        }
+
+        if ($entity->attributes->some(static fn (Attribute $attribute) => ($attribute->data_type === 'arrayhash'))) {
+            $dependencies->push(\Illuminate\Database\Eloquent\Casts\AsArrayObject::class);
+        }
+
+        return $dependencies->toPhpUsesString(
+            Config::get('bonsaicms-metamodel-eloquent.generate.namespace')
+        );
     }
 
     protected function resolveProperties(Entity $entity): string
@@ -164,12 +167,11 @@ class ModelManager implements ModelManagerContract
         if ($attributesToBeCasted->isEmpty()) return '';
 
         return Stub::make('propertyCasts', [
-            'casts' =>
-                PHP_EOL.
-                $attributesToBeCasted->reduce(fn ($carry, $attribute) => $carry.
-                    "        '{$attribute->column}' => '{$this->castAttributeTo($attribute)}',".PHP_EOL
-                    , '').
-                '    '
+            'casts' => $attributesToBeCasted
+                ->map(function (Attribute $attribute) {
+                    return "'{$attribute->column}' => {$this->castAttributeTo($attribute)},";
+                })
+                ->join(PHP_EOL)
         ]);
     }
 

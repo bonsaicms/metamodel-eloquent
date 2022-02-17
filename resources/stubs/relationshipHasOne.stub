@@ -1,7 +1,7 @@
-    /**
-     * Get the associated {{ foreignEntity }}
-     */
-    public function {{ method }}(): HasOne
-    {
-        return $this->hasOne({{ foreignEntity }}::class, '{{ foreignKey }}');
-    }
+/**
+ * Get the associated {{ foreignEntity }}
+ */
+public function {{ method }}(): HasOne
+{
+    return $this->hasOne({{ foreignEntity }}::class, '{{ foreignKey }}');
+}
