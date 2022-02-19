@@ -2,6 +2,7 @@
 
 namespace BonsaiCms\MetamodelEloquent\Observers;
 
+use Illuminate\Support\Facades\Config;
 use BonsaiCms\Metamodel\Models\Relationship;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 
@@ -19,8 +20,10 @@ class RelationshipObserver
      */
     public function created(Relationship $relationship)
     {
-        $this->manager->regenerateModel($relationship->leftEntity);
-        $this->manager->regenerateModel($relationship->rightEntity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
     }
 
     /**
@@ -31,8 +34,10 @@ class RelationshipObserver
      */
     public function updated(Relationship $relationship)
     {
-        $this->manager->regenerateModel($relationship->leftEntity);
-        $this->manager->regenerateModel($relationship->rightEntity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
     }
 
     /**
@@ -43,7 +48,9 @@ class RelationshipObserver
      */
     public function deleted(Relationship $relationship)
     {
-        $this->manager->regenerateModel($relationship->leftEntity);
-        $this->manager->regenerateModel($relationship->rightEntity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
     }
 }

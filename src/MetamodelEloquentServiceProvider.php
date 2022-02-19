@@ -63,15 +63,15 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
         ], 'bonsaicms-metamodel-eloquent-stubs');
 
         // Observe models
-        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity')) {
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity.enabled')) {
             Entity::observe(EntityObserver::class);
         }
 
-        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute')) {
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.enabled')) {
             Attribute::observe(AttributeObserver::class);
         }
 
-        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship')) {
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.enabled')) {
             Relationship::observe(RelationshipObserver::class);
         }
     }

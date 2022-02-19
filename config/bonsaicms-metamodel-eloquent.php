@@ -5,26 +5,45 @@ return [
         'modelManager' => true,
     ],
     'observeModels' => [
-        'entity' => true,
-        'attribute' => true,
-        'relationship' => true,
-
-        // TODO: use this syntax
-//        'entity' => [
-//            'created' => true,
-//            'updated' => true,
-//            'deleted' => true,
-//        ],
-//        'attribute' => [
-//            'created' => true,
-//            'updated' => true,
-//            'deleted' => true,
-//        ],
-//        'relationship' => [
-//            'created' => true,
-//            'updated' => true,
-//            'deleted' => true,
-//        ],
+        'entity' => [
+            'enabled' => true,
+            'model' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+            'policy' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+        ],
+        'attribute' => [
+            'enabled' => true,
+            'model' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+            'policy' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+        ],
+        'relationship' => [
+            'enabled' => true,
+            'model' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+            'policy' => [
+                'created' => true,
+                'updated' => true,
+                'deleted' => true,
+            ],
+        ],
     ],
     'generate' => [
         'folder' => app_path('Models'),

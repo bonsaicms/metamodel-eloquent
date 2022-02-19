@@ -2,6 +2,7 @@
 
 namespace BonsaiCms\MetamodelEloquent\Observers;
 
+use Illuminate\Support\Facades\Config;
 use BonsaiCms\Metamodel\Models\Attribute;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 
@@ -19,7 +20,9 @@ class AttributeObserver
      */
     public function created(Attribute $attribute)
     {
-        $this->manager->regenerateModel($attribute->entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($attribute->entity);
+        }
     }
 
     /**
@@ -30,7 +33,9 @@ class AttributeObserver
      */
     public function updated(Attribute $attribute)
     {
-        $this->manager->regenerateModel($attribute->entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($attribute->entity);
+        }
     }
 
     /**
@@ -41,6 +46,8 @@ class AttributeObserver
      */
     public function deleted(Attribute $attribute)
     {
-        $this->manager->regenerateModel($attribute->entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($attribute->entity);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace BonsaiCms\MetamodelEloquent\Observers;
 
+use Illuminate\Support\Facades\Config;
 use BonsaiCms\Metamodel\Models\Entity;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 
@@ -19,7 +20,9 @@ class EntityObserver
      */
     public function created(Entity $entity)
     {
-        $this->manager->regenerateModel($entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($entity);
+        }
     }
 
     /**
@@ -30,7 +33,9 @@ class EntityObserver
      */
     public function updated(Entity $entity)
     {
-        $this->manager->regenerateModel($entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($entity);
+        }
     }
 
     /**
@@ -41,6 +46,8 @@ class EntityObserver
      */
     public function deleted(Entity $entity)
     {
-        $this->manager->regenerateModel($entity);
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.entity.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($entity);
+        }
     }
 }
