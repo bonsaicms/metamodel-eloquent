@@ -18,8 +18,8 @@ it('should not cast string attributes', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/Article.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/Article.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });
 
@@ -38,8 +38,8 @@ it('should cast boolean attribute', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/ArticleWithBooleanAttribute.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/ArticleWithBooleanAttribute.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });
 
@@ -58,8 +58,8 @@ it('should cast date attribute', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/ArticleWithDateAttribute.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/ArticleWithDateAttribute.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });
 
@@ -85,8 +85,8 @@ it('should cast json attributes', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/ArticleWithJsonAttributes.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/ArticleWithJsonAttributes.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });
 
@@ -126,7 +126,7 @@ it('should cast attributes', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/ArticleWithAttributes.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/ArticleWithAttributes.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });

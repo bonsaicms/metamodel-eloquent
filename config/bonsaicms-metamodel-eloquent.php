@@ -1,6 +1,24 @@
 <?php
 
 return [
+    'generate' => [
+        'models' => [
+            'folder' => app_path('Models'),
+            'fileSuffix' => '.php',
+            'namespace' => app()->getNamespace().'Models',
+            'parentClass' => \Illuminate\Database\Eloquent\Model::class,
+        ],
+        'policies' => [
+            'folder' => app_path('Policies'),
+            'fileSuffix' => 'Policy.php',
+            'namespace' => app()->getNamespace().'Policies',
+            'parentClass' => null,
+            'dependencies' => [
+                \Test\App\Models\User::class,
+                \Test\Illuminate\Auth\Access\HandlesAuthorization::class,
+            ],
+        ],
+    ],
     'bind' => [
         'modelManager' => true,
     ],
@@ -44,11 +62,5 @@ return [
                 'deleted' => true,
             ],
         ],
-    ],
-    'generate' => [
-        'folder' => app_path('Models'),
-        'modelFileSuffix' => '.php',
-        'namespace' => app()->getNamespace().'Models',
-        'parentModel' => \Illuminate\Database\Eloquent\Model::class,
     ],
 ];

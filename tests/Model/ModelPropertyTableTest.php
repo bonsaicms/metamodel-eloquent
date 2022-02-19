@@ -10,8 +10,8 @@ it('generates a model class', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/Article.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Article.generated.php'
+        expected: generated_path('models/Article.php'),
+        actual: app_path('Models/Article.generated.php')
     );
 });
 
@@ -23,8 +23,8 @@ it('generates a model class with a special plural table name', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/Person.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Person.generated.php'
+        expected: generated_path('models/Person.php'),
+        actual: app_path('Models/Person.generated.php')
     );
 });
 
@@ -36,7 +36,7 @@ it('generates a model class with a custom table name', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/Page.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/Page.generated.php'
+        expected: generated_path('models/Page.php'),
+        actual: app_path('Models/Page.generated.php')
     );
 });

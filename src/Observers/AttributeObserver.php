@@ -23,6 +23,10 @@ class AttributeObserver
         if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
             $this->manager->regenerateModel($attribute->entity);
         }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.policy.'.__FUNCTION__)) {
+            $this->manager->regeneratePolicy($attribute->entity);
+        }
     }
 
     /**
@@ -36,6 +40,10 @@ class AttributeObserver
         if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
             $this->manager->regenerateModel($attribute->entity);
         }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.policy.'.__FUNCTION__)) {
+            $this->manager->regeneratePolicy($attribute->entity);
+        }
     }
 
     /**
@@ -48,6 +56,10 @@ class AttributeObserver
     {
         if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.model.'.__FUNCTION__)) {
             $this->manager->regenerateModel($attribute->entity);
+        }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.attribute.policy.'.__FUNCTION__)) {
+            $this->manager->regeneratePolicy($attribute->entity);
         }
     }
 }

@@ -17,36 +17,36 @@ beforeEach(function () {
         ]);
 });
 
-it('generates oneToMany relationship in the left entity', function () {
+it('generates oneToOne relationship in the left entity', function () {
     Relationship::factory()
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'cardinality' => 'oneToMany',
+            'cardinality' => 'oneToOne',
             'right_foreign_key' => 'blue_dog_id',
-            'left_relationship_name' => 'redCats',
+            'left_relationship_name' => 'redCat',
             'right_relationship_name' => 'blueDog',
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/BlueDogWithOneToManyRelationship.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/BlueDog.generated.php'
+        expected: generated_path('models/BlueDogWithOneToOneRelationship.php'),
+        actual: app_path('Models/BlueDog.generated.php')
     );
 });
 
-it('generates oneToMany relationship in the right entity', function () {
+it('generates oneToOne relationship in the right entity', function () {
     Relationship::factory()
         ->for($this->blueDog, 'leftEntity')
         ->for($this->redCat, 'rightEntity')
         ->create([
-            'cardinality' => 'oneToMany',
+            'cardinality' => 'oneToOne',
             'right_foreign_key' => 'blue_dog_id',
-            'left_relationship_name' => 'redCats',
+            'left_relationship_name' => 'redCat',
             'right_relationship_name' => 'blueDog',
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/RedCatWithOneToManyRelationship.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/RedCat.generated.php'
+        expected: generated_path('models/RedCatWithOneToOneRelationship.php'),
+        actual: app_path('Models/RedCat.generated.php')
     );
 });

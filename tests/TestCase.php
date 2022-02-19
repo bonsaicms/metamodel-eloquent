@@ -43,6 +43,25 @@ class TestCase extends Orchestra
             'generatedTableSuffix' => '_suf_gen',
         ]);
         config()->set('bonsaicms-metamodel-eloquent', [
+            'generate' => [
+                'models' => [
+                    'folder' => app_path('Models'),
+                    'fileSuffix' => '.generated.php',
+                    'namespace' => 'TestApp\\Models',
+                    'parentClass' => 'Some\\Namespace\\ParentModel',
+                ],
+                'policies' => [
+                    'folder' => app_path('Policies'),
+                    'fileSuffix' => 'Policy.generated.php',
+                    'namespace' => 'TestApp\\Policies',
+                    'parentClass' => null,
+                    'dependencies' => [
+                        \Some\Another\Class::class,
+                        \Test\App\Models\User::class,
+                        \Test\Illuminate\Auth\Access\HandlesAuthorization::class,
+                    ],
+                ],
+            ],
             'bind' => [
                 'modelManager' => true,
             ],
@@ -87,12 +106,6 @@ class TestCase extends Orchestra
                     ],
                 ],
             ],
-            'generate' => [
-                'folder' => __DIR__.'/../vendor/orchestra/testbench-core/laravel/app/Models',
-                'modelFileSuffix' => '.generated.php',
-                'namespace' => 'TestApp\\Models',
-                'parentModel' => 'Some\\Namespace\\ParentModel',
-            ],
         ]);
     }
 
@@ -118,11 +131,16 @@ class TestCase extends Orchestra
 
     protected function deleteGeneratedFiles()
     {
-        $files = glob(__DIR__.'/../vendor/orchestra/testbench-core/laravel/app/Models/*.generated.php');
+        $paths = [
+            app_path('Models/*.generated.php'),
+            app_path('Policies/*.generated.php'),
+        ];
 
-        foreach ($files as $file) {
-            if(is_file($file)) {
-                unlink($file);
+        foreach($paths as $path) {
+            foreach (glob($path) as $file) {
+                if(is_file($file)) {
+                    unlink($file);
+                }
             }
         }
     }

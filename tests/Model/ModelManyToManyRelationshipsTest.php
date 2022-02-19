@@ -31,8 +31,8 @@ it('generates manyToMany relationship in the left entity', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/BlueDogWithManyToManyRelationship.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/BlueDog.generated.php'
+        expected: generated_path('models/BlueDogWithManyToManyRelationship.php'),
+        actual: app_path('Models/BlueDog.generated.php')
     );
 });
 
@@ -50,7 +50,7 @@ it('generates manyToMany relationship in the right entity', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: __DIR__.'/../generatedModels/RedCatWithManyToManyRelationship.php',
-        actual: __DIR__.'/../../vendor/orchestra/testbench-core/laravel/app/Models/RedCat.generated.php'
+        expected: generated_path('models/RedCatWithManyToManyRelationship.php'),
+        actual: app_path('Models/RedCat.generated.php')
     );
 });

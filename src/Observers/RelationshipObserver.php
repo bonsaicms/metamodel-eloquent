@@ -24,6 +24,11 @@ class RelationshipObserver
             $this->manager->regenerateModel($relationship->leftEntity);
             $this->manager->regenerateModel($relationship->rightEntity);
         }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.policy.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
     }
 
     /**
@@ -38,6 +43,11 @@ class RelationshipObserver
             $this->manager->regenerateModel($relationship->leftEntity);
             $this->manager->regenerateModel($relationship->rightEntity);
         }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.policy.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
     }
 
     /**
@@ -49,6 +59,11 @@ class RelationshipObserver
     public function deleted(Relationship $relationship)
     {
         if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.model.'.__FUNCTION__)) {
+            $this->manager->regenerateModel($relationship->leftEntity);
+            $this->manager->regenerateModel($relationship->rightEntity);
+        }
+
+        if (Config::get('bonsaicms-metamodel-eloquent.observeModels.relationship.policy.'.__FUNCTION__)) {
             $this->manager->regenerateModel($relationship->leftEntity);
             $this->manager->regenerateModel($relationship->rightEntity);
         }
