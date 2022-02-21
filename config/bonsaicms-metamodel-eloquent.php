@@ -14,8 +14,8 @@ return [
             'namespace' => app()->getNamespace().'Policies',
             'parentClass' => null,
             'dependencies' => [
-                \Test\App\Models\User::class,
-                \Test\Illuminate\Auth\Access\HandlesAuthorization::class,
+                \App\Models\User::class,
+                \Illuminate\Auth\Access\HandlesAuthorization::class,
             ],
         ],
     ],
