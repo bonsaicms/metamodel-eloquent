@@ -3,4 +3,4 @@
  *
  * @var string
  */
-protected $table = '{{ tableName }}';
+protected $table = '{[ tableName ]}';

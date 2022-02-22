@@ -1,7 +1,7 @@
 /**
- * Get the associated {{ foreignEntity }}
+ * Get the associated {[ foreignEntity ]}
  */
-public function {{ method }}(): BelongsTo
+public function {[ method ]}(): BelongsTo
 {
-    return $this->belongsTo({{ foreignEntity }}::class, '{{ foreignKey }}');
+    return $this->belongsTo({[ foreignEntity ]}::class, '{[ foreignKey ]}');
 }

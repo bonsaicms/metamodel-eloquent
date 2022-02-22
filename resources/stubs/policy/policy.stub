@@ -1,10 +1,10 @@
 <?php
 
-namespace {{ namespace }};
+namespace {[ namespace ]};
 
-{{ dependencies }}
+{[ dependencies ]}
 
-class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
+class {[ className ]}Policy{[ extendsKeyword ]}{[ parentClass ]}
 {
     use HandlesAuthorization;
 
@@ -23,10 +23,10 @@ class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  {{ modelClassFullName }}  ${{ modelVariableName }}
+     * @param  {[ modelClassFullName ]}  ${[ modelVariableName ]}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, {{ modelClassBaseName }} ${{ modelVariableName }})
+    public function view(User $user, {[ modelClassBaseName ]} ${[ modelVariableName ]})
     {
         //
     }
@@ -46,10 +46,10 @@ class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  {{ modelClassFullName }}  ${{ modelVariableName }}
+     * @param  {[ modelClassFullName ]}  ${[ modelVariableName ]}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, {{ modelClassBaseName }} ${{ modelVariableName }})
+    public function update(User $user, {[ modelClassBaseName ]} ${[ modelVariableName ]})
     {
         //
     }
@@ -58,10 +58,10 @@ class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  {{ modelClassFullName }}  ${{ modelVariableName }}
+     * @param  {[ modelClassFullName ]}  ${[ modelVariableName ]}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, {{ modelClassBaseName }} ${{ modelVariableName }})
+    public function delete(User $user, {[ modelClassBaseName ]} ${[ modelVariableName ]})
     {
         //
     }
@@ -70,10 +70,10 @@ class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  {{ modelClassFullName }}  ${{ modelVariableName }}
+     * @param  {[ modelClassFullName ]}  ${[ modelVariableName ]}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, {{ modelClassBaseName }} ${{ modelVariableName }})
+    public function restore(User $user, {[ modelClassBaseName ]} ${[ modelVariableName ]})
     {
         //
     }
@@ -82,10 +82,10 @@ class {{ className }}Policy{{ extendsKeyword }}{{ parentClass }}
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  {{ modelClassFullName }}  ${{ modelVariableName }}
+     * @param  {[ modelClassFullName ]}  ${[ modelVariableName ]}
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, {{ modelClassBaseName }} ${{ modelVariableName }})
+    public function forceDelete(User $user, {[ modelClassBaseName ]} ${[ modelVariableName ]})
     {
         //
     }

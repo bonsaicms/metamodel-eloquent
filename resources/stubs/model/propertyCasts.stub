@@ -4,5 +4,5 @@
  * @var array
  */
 protected $casts = [
-    {{ casts|indentTabs(1) }}
+    {[ casts|indentTabs(1) ]}
 ];
