@@ -14,6 +14,15 @@ class Article extends ParentModel
     protected $table = 'pre_gen_articles_suf_gen';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'some_boolean_attribute',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array

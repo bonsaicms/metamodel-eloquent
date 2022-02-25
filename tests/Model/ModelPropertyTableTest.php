@@ -10,7 +10,7 @@ it('generates a model class', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: generated_path('models/Article.php'),
+        expected: generated_path('models/ArticleWithoutAttributes.php'),
         actual: app_path('Models/Article.generated.php')
     );
 });

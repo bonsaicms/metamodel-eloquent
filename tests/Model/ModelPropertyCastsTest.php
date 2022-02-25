@@ -18,7 +18,7 @@ it('should not cast string attributes', function () {
         ]);
 
     $this->assertFileEquals(
-        expected: generated_path('models/Article.php'),
+        expected: generated_path('models/ArticleWithStringAttribute.php'),
         actual: app_path('Models/Article.generated.php')
     );
 });

@@ -19,15 +19,6 @@ class Article extends ParentModel
      * @var array
      */
     protected $fillable = [
-        'some_date_attribute',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'some_date_attribute' => 'date',
+        'some_string_attribute',
     ];
 }

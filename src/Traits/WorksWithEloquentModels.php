@@ -138,6 +138,7 @@ trait WorksWithEloquentModels
     {
         return Stub::make('model/properties', [
             'propertyTable' => $this->resolveModelTableProperty($entity),
+            'propertyFillable' => $this->resolveModelFillableProperty($entity),
             'propertyCasts' => $this->resolveModelCastsProperty($entity),
         ]);
     }
@@ -149,6 +150,22 @@ trait WorksWithEloquentModels
             : Stub::make('model/propertyTable', [
                 'tableName' => $entity->realTableName,
             ]);
+    }
+
+    protected function resolveModelFillableProperty(Entity $entity): string
+    {
+        if ($entity->attributes->isEmpty()) {
+            return '';
+        }
+
+        return Stub::make('model/propertyFillable', [
+            'fields' => $entity
+                ->attributes
+                ->map(function (Attribute $attribute) {
+                    return "'{$attribute->column}',";
+                })
+                ->join(PHP_EOL),
+        ]);
     }
 
     protected function resolveModelCastsProperty(Entity $entity): string
