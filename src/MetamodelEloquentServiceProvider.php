@@ -9,8 +9,11 @@ use BonsaiCms\Metamodel\Models\Attribute;
 use BonsaiCms\Metamodel\Models\Relationship;
 use BonsaiCms\MetamodelEloquent\Console\DeleteModels;
 use BonsaiCms\MetamodelEloquent\Console\GenerateModels;
+use BonsaiCms\MetamodelEloquent\Console\DeletePolicies;
 use BonsaiCms\MetamodelEloquent\Observers\EntityObserver;
 use BonsaiCms\MetamodelEloquent\Console\RegenerateModels;
+use BonsaiCms\MetamodelEloquent\Console\GeneratePolicies;
+use BonsaiCms\MetamodelEloquent\Console\RegeneratePolicies;
 use BonsaiCms\MetamodelEloquent\Observers\AttributeObserver;
 use BonsaiCms\MetamodelEloquent\Contracts\ModelManagerContract;
 use BonsaiCms\MetamodelEloquent\Observers\RelationshipObserver;
@@ -49,6 +52,10 @@ class MetamodelEloquentServiceProvider extends ServiceProvider
                 DeleteModels::class,
                 GenerateModels::class,
                 RegenerateModels::class,
+
+                DeletePolicies::class,
+                GeneratePolicies::class,
+                RegeneratePolicies::class,
             ]);
         }
 
